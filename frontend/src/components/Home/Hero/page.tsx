@@ -20,7 +20,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-300">
+    <div className="h-screen flex items-center justify-center bg-white">
       <div className="p-6 h-auto w-auto border border-gray-400 rounded-lg shadow-lg">
         {message || "Loading..."}
       </div>
