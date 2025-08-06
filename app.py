@@ -26,7 +26,7 @@ def hello():
 @app.route("/debug-tasks", methods=["GET"])
 def debug_tasks():
     try:
-        tasks = get_all_tasks()
+        tasks = model.get_all_tasks()
         print("DEBUG TYPE:", type(tasks))
         return jsonify({"tasks": tasks, "status": "success"}), 200
     except Exception as e:
