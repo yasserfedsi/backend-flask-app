@@ -2,10 +2,11 @@ from asyncio import tasks
 from flask import Flask, jsonify, render_template
 from flask_cors import CORS
 from core.routes import routes
-from core.models import get_all_tasks
+from core.models import Models
 
 app = Flask(__name__)
 CORS(app, origins=["https://flask-frontend.celec.codes"])
+model = Models()
 
 # Registering the routes blueprint
 app.register_blueprint(routes)
@@ -13,7 +14,7 @@ app.register_blueprint(routes)
 @app.route("/")
 def index():
     try:
-        tasks = get_all_tasks()
+        tasks = model.get_all_tasks()
         return render_template("index.html", tasks=tasks)
     except Exception as e:
         return jsonify({"error": str(e), "status": "error"}), 500
