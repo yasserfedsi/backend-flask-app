@@ -12,12 +12,24 @@ app.register_blueprint(routes)
 
 @app.route("/")
 def index():
-    tasks = get_all_tasks()
-    return render_template("index.html", tasks=tasks)
+    try:
+        tasks = get_all_tasks()
+        return render_template("index.html", tasks=tasks)
+    except Exception as e:
+        return jsonify({"error": str(e), "status": "error"}), 500
 
 @app.route("/api/hello", methods=["GET"])
 def hello():
     return jsonify({"message": "Welcome to the Flask API Production!"})
+
+@app.route("/debug-tasks", methods=["GET"])
+def debug_tasks():
+    try:
+        tasks = get_all_tasks()
+        print("DEBUG TYPE:", type(tasks))
+        return jsonify({"tasks": tasks, "status": "success"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e), "status": "error"}), 500
 
 
 if __name__ == "__main__":
