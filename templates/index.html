@@ -1,31 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Flask backend</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flask backend</title>
 </head>
-<body class="bg-gradient-to-b from-gray-100 to-gray-200 min-h-screen py-10">
-  <div class="max-w-5xl mx-auto px-4">
-    <!-- Header -->
-    <h1 class="text-4xl font-bold text-center text-gray-800 mb-4">📝 My Task List</h1>
-    <p class="text-center text-gray-600 mb-10 text-lg">
-      You have <span class="font-semibold text-gray-800">{{ tasks|length }}</span> task{{ tasks|length != 1 and 's' or '' }}.
-    </p>
+<style>
+  /* General Styles */
+  body.body {
+    background: linear-gradient(to bottom, #f3f4f6, #e5e7eb);
+    min-height: 100vh;
+    padding-top: 2.5rem;
+    font-family: system-ui, sans-serif;
+  }
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  .container {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  /* Header */
+  .heading {
+    font-size: 2.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .subheading {
+    text-align: center;
+    color: #4b5563;
+    margin-bottom: 2.5rem;
+    font-size: 1.125rem;
+  }
+
+  .task-count {
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  /* Task Grid */
+  .task-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media (min-width: 640px) {
+    .task-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .task-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Task Card */
+  .task-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .task-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+
+  .task-desc {
+    color: #4b5563;
+    margin-bottom: 1rem;
+  }
+
+  .task-status {
+    margin-top: auto;
+  }
+
+  .status-completed,
+  .status-incomplete {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 9999px;
+  }
+
+  .status-completed {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+
+  .status-incomplete {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+</style>
+<body class="body">
+  <div class="container">
+    <h1 class="heading">📝 My Task List</h1>
+    <p class="subheading">
+      You have <span class="task-count">{{ tasks|length }}</span> task{{ tasks|length != 1 and 's' or '' }}.
+    </p>
+    <div class="task-grid">
       {% for task in tasks %}
-      <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 p-6 flex flex-col justify-between">
+      <div class="task-card">
         <div>
-          <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ task.title }}</h2>
-          <p class="text-gray-600 mb-4">{{ task.description }}</p>
+          <h2 class="task-title">{{ task.title }}</h2>
+          <p class="task-desc">{{ task.description }}</p>
         </div>
-        <div class="mt-auto">
+        <div class="task-status">
           {% if task.completed %}
-          <span class="inline-block px-3 py-1 text-sm font-medium bg-green-100 text-green-800 rounded-full">✅ Completed</span>
+          <span class="status-completed">✅ Completed</span>
           {% else %}
-          <span class="inline-block px-3 py-1 text-sm font-medium bg-red-100 text-red-800 rounded-full">❌ Incomplete</span>
+          <span class="status-incomplete">❌ Incomplete</span>
           {% endif %}
         </div>
       </div>
