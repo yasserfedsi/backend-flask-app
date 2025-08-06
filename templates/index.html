@@ -3,9 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Flask backend</title>
 </head>
-<body>
-    <h1>Hello, World</h1>
+<body class="bg-gradient-to-b from-gray-100 to-gray-200 min-h-screen py-10">
+  <div class="max-w-5xl mx-auto px-4">
+    <!-- Header -->
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-4">📝 My Task List</h1>
+    <p class="text-center text-gray-600 mb-10 text-lg">
+      You have <span class="font-semibold text-gray-800">{{ tasks|length }}</span> task{{ tasks|length != 1 and 's' or '' }}.
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for task in tasks %}
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 p-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ task.title }}</h2>
+          <p class="text-gray-600 mb-4">{{ task.description }}</p>
+        </div>
+        <div class="mt-auto">
+          {% if task.completed %}
+          <span class="inline-block px-3 py-1 text-sm font-medium bg-green-100 text-green-800 rounded-full">✅ Completed</span>
+          {% else %}
+          <span class="inline-block px-3 py-1 text-sm font-medium bg-red-100 text-red-800 rounded-full">❌ Incomplete</span>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </body>
 </html>
